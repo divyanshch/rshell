@@ -14,7 +14,7 @@ void executer(char **argv,int& status)
 int pid=fork();
 if (pid == -1)//there was an error with the forking
 {
-	perror("fork");
+	perror("fork");//if error does the proper error output
 	exit(1);
 }
 else if (pid ==0)//if the child process is running
@@ -38,12 +38,10 @@ else if (pid >0)//parent process is running
 
 }
 }
-void checker(char** argvIN,char **argvOUT,char* ops,int& sz)
+void checker(char** argvIN,char **argvOUT,char* ops,int& sz)//this is where the actual strtok takes place
 {
-	
-
 	int j=0;
-		char *word= strtok(argvIN[0],ops);
+		char *word= strtok(argvIN[0],ops);//finds whatever operation is put in and breaks it apart
 		
 		while (word!=NULL)
 		{
@@ -52,17 +50,15 @@ void checker(char** argvIN,char **argvOUT,char* ops,int& sz)
 //			cout << argvOUT[j] << endl;
 			word = strtok(NULL, ops);
 			j++;
-
 		}
 		argvOUT[j]=0;
-		sz=j;
+		sz=j;							//also outputs the size of how many argv's were made
 
-		delete[] word;
-	
+		delete[] word;					//deallocates memory
 }
 
 
-void initial(char *inputchar,  char** argv)
+void initial(char *inputchar,  char** argv)//this is needed to initallize the first token to make things easier
 {
 
 	char *word = strtok(inputchar,"");
@@ -78,57 +74,57 @@ void initial(char *inputchar,  char** argv)
 	}
 	argv[i]=0;//this is where the string end
 	delete[] word;
-}
-
-
-
-
+}//the output on this should just be argv[0] which would have all the words in the inputchar
 
 
 void stringtoken(string input)
 {
 //put the input into characters rather than string
-	char *inputchar = new char [input.length()+1];
+	char *inputchar = new char [input.length()+1];//makes a char* from string
 	strcpy(inputchar,input.c_str());
 
 	bool semi  = false;
 	bool andd  = false;
 	bool orr   = false;
-	bool spac  = false;
+	bool spac  = true;
 	char *se   = new char[3];
 	char *an   = new char[3];
 	char *orrr = new char[3];
 	char *spa  = new char[3];
 	char *exitC = new char[5];
+	//just defining character pointers
 	strcpy(exitC,"exit");
 	strcpy(se,";");
 	strcpy(an,"&&");
 	strcpy(orrr,"||");
 	strcpy(spa," \n");
-		if (input.find(";")<input.size())
-		{
-			semi = true;
-		}
-		if (input.find("&&")<input.size())
-		{
-			andd = true;
-		}
-		if (input.find("||")<input.size())
-		{
-			orr = true;
-		}
-			spac = true;
+	//these check if the operations are in the string and set the bool value
+	if (input.find(";")<input.size())
+	{
+		semi = true;
+	}
+	if (input.find("&&")<input.size())
+	{
+		andd = true;
+	}
+	if (input.find("||")<input.size())
+	{
+		orr = true;
+	}
 
 		
-
+	//giving the size to each of the char ** 
 	char **argvSEMI   = new char*[strlen(inputchar)];
 	char **argvANDD   = new char*[strlen(inputchar)];
 	char **argvORR    = new char*[strlen(inputchar)];
 	char **argvSPACE  = new char*[strlen(inputchar)];
 	char **argvIN     = new char*[strlen(inputchar)];
-	int status1 =0;
-	initial(inputchar,argvIN);
+	
+	initial(inputchar,argvIN); //this puts the whole input into a char** for further breakdown
+
 	int status = 0;
+	int status1 =0;
+	
 	if(semi||andd||orr||spac)
 	{
 		int sz=0;
@@ -151,7 +147,7 @@ void stringtoken(string input)
 								{
 									int sz3=0;
 									checker(argvORR,argvSPACE,spa,sz3);
-									if(strcmp(argvSPACE[0],exitC)==0)
+									if(strcmp(argvSPACE[0],exitC)==0)//compares if the value is exit and if it is it exits
 									{
 										exit(0);
 									}
@@ -161,21 +157,21 @@ void stringtoken(string input)
 								if(status==0)//if status is zero that means that the program worked
 								{
 									p=sz2;
-									status1=-1;
+									status1=-1;//if it works that means the following && should work too
 								}
-								else
+								else//otherwise it moves to the next ORR
 								{
 									for (int k=0;k<sz2;k++)
 										argvORR[k]=argvORR[k+1];
 								}
 							}
 						}
-						if (status ==0 ||(orr&&status1==-1))
+						if (status ==0 ||(orr&&status1==-1))//if it is true then it moves to the next &&
 						{
 							for(int k=0;k<sz1;k++)
 								argvANDD[k]=argvANDD[k+1];
 						}
-						else 
+						else //if false then doesnt do the next &&
 						{
 							char *fa=new char[1];
 							strcpy(fa,"");
@@ -184,13 +180,13 @@ void stringtoken(string input)
 						}
 						
 					}
-				}
+				}//moves to the next ;
 				
 				for(int k=0;k<sz;k++)
 					argvSEMI[k]= argvSEMI[k+1];
 		}
 	}
-		
+	//deallocates memory	
 	delete[] inputchar;
 	delete[] se;
 	delete[] an;
@@ -206,43 +202,43 @@ void stringtoken(string input)
 
 int main()
 {
-	string prompt;
+	string prompt; // make a string for the prompt
 	char host[333];
 
-	if (getlogin()==NULL)
-		perror("getlogin()");
+	if (getlogin()==NULL) // get login info 
+		perror("getlogin()"); //if its not there error
 
-	if (gethostname(host,300) !=0)
-		perror("gethostname()");
+	if (gethostname(host,300) !=0) //get host info
+		perror("gethostname()");  // error otherwise
 
 	if (getlogin()!=NULL && gethostname(host,300)== 0)
 	{
 		for (int i=0;i<50;i++)
 		{
 			if (host[i]=='.')
-				host[i]='\0';
+				host[i]='\0'; //this just makes it so the host ends at EX @hammer.cs.ucr.edu gets shortened to @hammer
 		}
 		prompt = getlogin();
-		prompt = prompt+"@"+host+" $ fake ";
+		prompt = prompt+"@"+host+" $ "; //puts dchou002@hammer $ together
 	}
-	else
+	else // if host or login failed 
 	{
 		prompt = "$ ";
 	}
 
 	string input;
-	while (1)
+	while (1)//infinite loop
 	{
 	
 		cout << prompt;
 		
-		getline(cin,input);
+		getline(cin,input);//gets input
 		
-		if (input.find("#") != string::npos)
+		if (input.find("#") != string::npos)//resizes if the comment is found
 		{
 			input.resize(input.find("#"));
 		}
-		stringtoken(input);
+		stringtoken(input);//starts the program
 
 	}
 	
