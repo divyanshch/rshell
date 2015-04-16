@@ -151,8 +151,8 @@ void stringtoken(string input)
 									{
 										exit(0);
 									}
-
-									executer(argvSPACE,status);
+									else
+										executer(argvSPACE,status);
 								}
 								if(status==0)//if status is zero that means that the program worked
 								{
