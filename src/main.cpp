@@ -11,50 +11,49 @@ using namespace std;
 
 void executer(char **argv,int& status)
 {
-int pid=fork();
-if (pid == -1)//there was an error with the forking
-{
-	perror("fork");//if error does the proper error output
-	exit(1);
-}
-else if (pid ==0)//if the child process is running
-{
-	
-	if(-1==execvp(argv[0],argv))
+	int pid=fork();
+	if (pid == -1)//there was an error with the forking
 	{
-		status = -1;
-		perror("execvp");
-	}
-	exit (1);
-}
-else if (pid >0)//parent process is running
-{
-	if (-1 == wait(&status))// if the wait fails it displays error and exits
-	{
-		perror("wait");
+		perror("fork");//if error does the proper error output
 		exit(1);
 	}
+	else if (pid ==0)//if the child process is running
+	{
+		
+		if(-1==execvp(argv[0],argv))
+		{
+			status = -1;
+			perror("execvp");
+		}
+		exit (1);
+	}
+	else if (pid >0)//parent process is running
+	{
+		if (-1 == wait(&status))// if the wait fails it displays error and exits
+		{
+			perror("wait");
+			exit(1);
+		}
 
 
-}
+	}
 }
 void checker(char** argvIN,char **argvOUT,char* ops,int& sz)//this is where the actual strtok takes place
 {
 	int j=0;
-		char *word= strtok(argvIN[0],ops);//finds whatever operation is put in and breaks it apart
-		
-		while (word!=NULL)
-		{
-			argvOUT[j] = word;
+	char *word= strtok(argvIN[0],ops);//finds whatever operation is put in and breaks it apart
+	
+	while (word!=NULL)
+	{
+		argvOUT[j] = word;
 
-//			cout << argvOUT[j] << endl;
-			word = strtok(NULL, ops);
-			j++;
-		}
-		argvOUT[j]=0;
-		sz=j;							//also outputs the size of how many argv's were made
+		word = strtok(NULL, ops);
+		j++;
+	}
+	argvOUT[j]=0;
+	sz=j;							//also outputs the size of how many argv's were made
 
-		delete[] word;					//deallocates memory
+	delete[] word;					//deallocates memory
 }
 
 
@@ -67,8 +66,6 @@ void initial(char *inputchar,  char** argv)//this is needed to initallize the fi
 	{
 		argv[i] = word;
 		
-
-	//	cout << argv[i] << endl;
 		word = strtok(NULL, "");
 		i++;
 	}
@@ -79,7 +76,7 @@ void initial(char *inputchar,  char** argv)//this is needed to initallize the fi
 
 void stringtoken(string input)
 {
-//put the input into characters rather than string
+	//put the input into characters rather than string
 	char *inputchar = new char [input.length()+1];//makes a char* from string
 	strcpy(inputchar,input.c_str());
 
@@ -100,18 +97,11 @@ void stringtoken(string input)
 	strcpy(spa," \n");
 	//these check if the operations are in the string and set the bool value
 	if (input.find(";")<input.size())
-	{
 		semi = true;
-	}
 	if (input.find("&&")<input.size())
-	{
 		andd = true;
-	}
 	if (input.find("||")<input.size())
-	{
 		orr = true;
-	}
-
 		
 	//giving the size to each of the char ** 
 	char **argvSEMI   = new char*[strlen(inputchar)];
