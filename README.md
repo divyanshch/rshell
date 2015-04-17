@@ -16,14 +16,21 @@ This project is built to act as a terminal. It has the same functionality as a r
 
 1. The same connectors in a row will act as if they were just the actual connector 
 	`|||||||||` is the same as `||`
+
 	`&&&&&&&&&` is the same as `&&`
+
 	`;;;;;;;;;` is the same as `;`
 
 2. Having the same connectors followed by each other without any argument gives off a segmentation fault
+
 	`ls || && ls -a` this works however its only because the first paramater is true hence it does not check the second paramater
+	
 	`asd || && ls -a` this on the other hand throws off an error
+	
 	`ls && || ls -a` also throws an error 
+	
 	`ls ; && ls` also throws an error
+	
 	Any combination of connectors right next to each other in that manner thows an error.
 
 3. Having just `|` or `&` acts the same way as having `&&` or `||`
