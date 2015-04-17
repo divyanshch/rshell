@@ -137,6 +137,7 @@ void stringtoken(string input)
 								{
 									int sz3=0;
 									checker(argvORR,argvSPACE,spa,sz3);
+									cout << argvSPACE[0] << endl;
 									if(strcmp(argvSPACE[0],exitC)==0)//compares if the value is exit and if it is it exits
 									{
 										exit(0);
@@ -160,6 +161,7 @@ void stringtoken(string input)
 						{
 							for(int k=0;k<sz1;k++)
 								argvANDD[k]=argvANDD[k+1];
+								status =200;
 						}
 						else //if false then doesnt do the next &&
 						{
@@ -168,7 +170,6 @@ void stringtoken(string input)
 							argvANDD[0]=fa;
 							delete []fa;
 						}
-						
 					}
 				}//moves to the next ;
 				
