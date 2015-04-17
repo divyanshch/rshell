@@ -1,6 +1,6 @@
 CFLAG = -ansi -pedantic -Wall -Werror
 
-COMPILER = g++
+COMPILER = g++ 
 
 all:
 	mkdir -p bin
