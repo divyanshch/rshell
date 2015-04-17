@@ -15,6 +15,7 @@ This project is built to act as a terminal. It has the same functionality as a r
 ##Bugs/Limitations
 
 1. The same connectors in a row will act as if they were just the actual connector 
+
 	`|||||||||` is the same as `||`
 
 	`&&&&&&&&&` is the same as `&&`
@@ -35,7 +36,7 @@ This project is built to act as a terminal. It has the same functionality as a r
 
 3. Having just `|` or `&` acts the same way as having `&&` or `||`
 
-4. Cannot run `"ls"` throws an error `execvp: No such file or directory` 
+4. Cannot run `"ls"` (that is `ls` in quotes `""`) throws an error `execvp: No such file or directory` 
 
 
 
