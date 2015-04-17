@@ -1,0 +1,230 @@
+Script started on Fri 17 Apr 2015 12:04:24 AM PDT
+~
+dchou002@hammer $ cs [K100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m CD[K[Kcd S[KCS100/rshell/
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
+exec  LICENSE  Makefile  README.md  src
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m m[Kcppcheck src/main.cpp 
+Checking src/main.cpp...
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m make
+mkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/main.cpp -o bin/rshell
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
+bin  exec  LICENSE  Makefile  README.md  src
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
+dchou002@hammer $ ls 
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $ ls a-  -a -l
+total 48
+drwx------ 5 dchou002 classes  4096 Apr 16 23:59 .
+drwx------ 5 dchou002 classes  4096 Apr 16 01:59 ..
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+drwx------ 8 dchou002 classes  4096 Apr 16 23:48 .git
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+dchou002@hammer $ s ls -a -l   b -c -d -g -h -m -n -l -r -s -t 
+4.0K drwx------ 5 507 4.0K Apr 16 23:59 .
+dchou002@hammer $ ps
+  PID TTY          TIME CMD
+26596 pts/61   00:00:00 bash
+26644 pts/61   00:00:00 rshell
+26664 pts/61   00:00:00 ps
+dchou002@hammer $ bin/rshell
+dchou002@hammer $ ps
+  PID TTY          TIME CMD
+26596 pts/61   00:00:00 bash
+26644 pts/61   00:00:00 rshell
+26668 pts/61   00:00:00 rshell
+26674 pts/61   00:00:00 ps
+dchou002@hammer $ bin /  /ri shell
+dchou002@hammer $ ps
+  PID TTY          TIME CMD
+26596 pts/61   00:00:00 bash
+26644 pts/61   00:00:00 rshell
+26668 pts/61   00:00:00 rshell
+26675 pts/61   00:00:00 rshell
+26676 pts/61   00:00:00 ps
+dchou002@hammer $ ls -a 
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+dchou002@hammer $ ps
+  PID TTY          TIME CMD
+26596 pts/61   00:00:00 bash
+26644 pts/61   00:00:00 rshell
+26668 pts/61   00:00:00 rshell
+26675 pts/61   00:00:00 rshell
+26678 pts/61   00:00:00 ps
+dchou002@hammer $ exit
+dchou002@hammer $ ps    ls -a && ls -l -t
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+dchou002@hammer $ ps
+  PID TTY          TIME CMD
+26596 pts/61   00:00:00 bash
+26644 pts/61   00:00:00 rshell
+26668 pts/61   00:00:00 rshell
+26722 pts/61   00:00:00 ps
+dchou002@hammer $ exit
+dchou002@hammer $ ps
+  PID TTY          TIME CMD
+26596 pts/61   00:00:00 bash
+26644 pts/61   00:00:00 rshell
+26765 pts/61   00:00:00 ps
+dchou002@hammer $ asdf 
+execvp: No such file or directory
+dchou002@hammer $ adfl jk       ls -a # all this is comments 
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+dchou002@hammer $ ls # -a t   it should not execute the -a
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $            ls          -a    -l    -t
+total 48
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+drwx------ 5 dchou002 classes  4096 Apr 16 23:59 .
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+drwx------ 8 dchou002 classes  4096 Apr 16 23:48 .git
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 5 dchou002 classes  4096 Apr 16 01:59 ..
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+dchou002@hammer $ ls || ls -a && ls
+bin  exec  LICENSE  Makefile  README.md  src
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $ asdf || ls -a && ls
+execvp: No such file or directory
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $ asdf || asdf && ls
+execvp: No such file or directory
+execvp: No such file or directory
+execvp: No such file or directory
+dchou002@hammer $ ls -a && ls -l;  ; ls ; echo hellowo   world ;   &&    && ls    echo worked
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+bin  exec  LICENSE  Makefile  README.md  src
+hello world
+worked
+dchou002@hammer $ asf && ls
+execvp: No such file or directory
+execvp: No such file or directory
+dchou002@hammer $ ls && ls -a
+bin  exec  LICENSE  Makefile  README.md  src
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+dchou002@hammer $ ls || adfad
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $ asf || ls 
+execvp: No such file or directory
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $ ls ; ls -a && ls    echo hello; echo this || adsf
+bin  exec  LICENSE  Makefile  README.md  src
+.  ..  bin  exec  .git	LICENSE  Makefile  README.md  src
+hello
+this
+dchou002@hammer $ ls -l&&cat       ;           echo world     ;echo worked
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+world
+worked
+dchou002@hammer $ ls    asdfa||ls   ; echo worked
+execvp: No such file or directory
+bin  exec  LICENSE  Makefile  README.md  src
+worked
+dchou002@hammer $ exit
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
+dchou002@hammer $ ls   || exit
+bin  exec  LICENSE  Makefile  README.md  src
+dchou002@hammer $ e adfa || exit
+execvp: No such file or directory
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
+dchou002@hammer $ ls -l exit 
+ls: cannot access exit: No such file or directory
+dchou002@hammer $ ls -l exit; ls   && exit
+ls: cannot access exit: No such file or directory
+bin  exec  LICENSE  Makefile  README.md  src
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
+dchou002@hammer $ s   ls -l;exit
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m vim[K[K[Kbin/rshell 
+dchou002@hammer $ ls -l #t all lt  this comment again
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+dchou002@hammer $ ls -l  #exit
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+dchou002@hammer $ #as you can see the comment is working
+dchou002@hammer $ ls -l#even when the  y touch the parameter           argument
+total 36
+drwx------ 2 dchou002 classes  4096 Apr 16 23:59 bin
+-rw------- 1 dchou002 classes     0 Apr 16 23:58 exec
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   197 Apr 16 21:29 Makefile
+-rw------- 1 dchou002 classes  1342 Apr 16 21:26 README.md
+drwx------ 2 dchou002 classes  4096 Apr 16 23:58 src
+dchou002@hammer $ echo everything works 
+everything works
+dchou002@hammer $ echo so please         so please give me l lots of point :)  :) thank you
+so please give me lots of point :) thank you
+dchou002@hammer $ exit
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
+bin  exec  LICENSE  Makefile  README.md  src
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m exit
+exit
+~
+dchou002@hammer $ exit
+exit
+
+Script done on Fri 17 Apr 2015 12:14:55 AM PDT
