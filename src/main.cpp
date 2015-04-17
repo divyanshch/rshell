@@ -137,7 +137,7 @@ void stringtoken(string input)
 								{
 									int sz3=0;
 									checker(argvORR,argvSPACE,spa,sz3);
-									cout << argvSPACE[0] << endl;
+					//				cout << argvSPACE[0] << endl;
 									if(strcmp(argvSPACE[0],exitC)==0)//compares if the value is exit and if it is it exits
 									{
 										exit(0);
