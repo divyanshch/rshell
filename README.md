@@ -9,9 +9,13 @@ This project is built to act as a terminal. It has the same functionality as a r
 
 `
 $ clone  https://github.com/yourusername/rshell.git
+
 $ cd rshell
+
 $ git checkout hw0
+
 $ make
+
 $ bin/rshell
 `
 
