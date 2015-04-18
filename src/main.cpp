@@ -53,18 +53,7 @@ void checker(char** argvIN,char **argvOUT,char* ops,int& sz)//this is where the 
 	argvOUT[j]=0;
 	sz=j;							//also outputs the size of how many argv's were made
 	
-//	char *space = new char[5];
-//	//just defining character pointers
-//	strcpy(space," ");
-//
-//	if (argvOUT[0]==space)
-//	{
-//		for(j=0;j<=sz;j++)
-//		{
-//			argvOUT[j]=argvOUT[j+1];
-//		}
-//		
-//	}
+
 
 	delete[] word;					//deallocates memory
 }
@@ -215,10 +204,10 @@ int main()
 	char host[333];
 
 	if (getlogin()==NULL) // get login info 
-		perror("getlogin()"); //if its not there error
+		perror("getlogin"); //if its not there error
 
 	if (gethostname(host,300) !=0) //get host info
-		perror("gethostname()");  // error otherwise
+		perror("gethostname");  // error otherwise
 
 	if (getlogin()!=NULL && gethostname(host,300)== 0)
 	{
