@@ -52,6 +52,19 @@ void checker(char** argvIN,char **argvOUT,char* ops,int& sz)//this is where the 
 	}
 	argvOUT[j]=0;
 	sz=j;							//also outputs the size of how many argv's were made
+	
+//	char *space = new char[5];
+//	//just defining character pointers
+//	strcpy(space," ");
+//
+//	if (argvOUT[0]==space)
+//	{
+//		for(j=0;j<=sz;j++)
+//		{
+//			argvOUT[j]=argvOUT[j+1];
+//		}
+//		
+//	}
 
 	delete[] word;					//deallocates memory
 }
@@ -137,13 +150,18 @@ void stringtoken(string input)
 								{
 									int sz3=0;
 									checker(argvORR,argvSPACE,spa,sz3);
-					//				cout << argvSPACE[0] << endl;
-									if(strcmp(argvSPACE[0],exitC)==0)//compares if the value is exit and if it is it exits
+								
+									if(argvSPACE[0]==NULL)
+									{
+
+									}
+									else if(strcmp(argvSPACE[0],exitC)==0)//compares if the value is exit and if it is it exits
 									{
 										exit(0);
 									}
 									else
 										executer(argvSPACE,status);
+
 								}
 								if(status==0)//if status is zero that means that the program worked
 								{
