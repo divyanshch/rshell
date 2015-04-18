@@ -28,5 +28,6 @@ This project is built to act as a terminal. It has the same functionality as a r
 
 4. Cannot run `"ls"` (that is `ls` in quotes `""`) throws an error `execvp: No such file or directory` 
 
+5. Using 'exit' with parameters passed to it just exectues the 'exit' 
 
 
