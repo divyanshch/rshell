@@ -7,17 +7,13 @@ This project is built to act as a terminal. It has the same functionality as a r
 
 ##Install Instructions
 
-`
-$ clone  https://github.com/yourusername/rshell.git
-
+```
+$ clone  https://github.com/divyanshch/rshell.git
 $ cd rshell
-
 $ git checkout hw0
-
 $ make
-
 $ bin/rshell
-`
+```
 
 ##Bugs/Limitations
 
