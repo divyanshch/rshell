@@ -33,4 +33,7 @@ $ bin/rshell
 
 5. Using `exit` with parameters passed to it just executes the `exit`. 
 
+6. Running `false && true || pwd` returns nothing when it should run `pwd` 
+
+
 
