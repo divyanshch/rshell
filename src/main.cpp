@@ -151,7 +151,7 @@ void stringtoken(string input)
 									int sz3=0;
 									checker(argvORR,argvSPACE,spa,sz3);
 								
-									if(argvSPACE[0]==NULL)
+									if(argvSPACE[0]==NULL)// this prevents the segfaults that would be caused if NULL was passed
 									{
 
 									}
