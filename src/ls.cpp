@@ -24,12 +24,11 @@ char RESET[] = {"\033[0m"};
 void rflag(char *folder);
 void printer(vector<string> temp,char *folder)
 {
-	int width=0;
-	int max_size;
+	unsigned int max_size;
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	
-	for(int i=0;i<temp.size();i++)
+	for(unsigned int i=0;i<temp.size();i++)
 	{
 		if(max_size<temp[i].size())
 			max_size = temp[i].size();
@@ -38,17 +37,13 @@ void printer(vector<string> temp,char *folder)
 	int term_width =  w.ws_col;
 	int less = (term_width/max_size) -1;
 	int check=0;
-//	cout << folder << "works" << endl;
-	for (int i=0;i<temp.size();i++)
+	for (unsigned int i=0;i<temp.size();i++)
 	{
 
-	//		string fake = temp[i];
-	//		fake = "./src/"+fake;
-	//		temp[i] = fake;
 			struct stat buff;
 			string fake = folder;
 			int counter=0;
-			for (int m=0;m<fake.size();m++)
+			for (unsigned int m=0;m<fake.size();m++)
 			{
 				if(fake.at(m)=='/')
 					counter++;
@@ -139,8 +134,7 @@ void lflag(char *folder,bool flag)
 
 	int total=0;
 	
-	//cout << folder << "works" << endl;
-	for(int i=0;i<temp.size();i++)
+	for(unsigned int i=0;i<temp.size();i++)
 	{
 		struct stat fakebuff;
 		if(lstat(((folder+temp[i])).c_str(), &fakebuff) == -1)
@@ -151,7 +145,7 @@ void lflag(char *folder,bool flag)
 		total += fakebuff.st_blocks;
 	}
 	cout << "total " << total/2 << endl;
-	for (int i=0; i<temp.size();i++)
+	for (unsigned int i=0; i<temp.size();i++)
 	{
 		struct stat buff;
 		if(lstat(((folder+temp[i])).c_str(), &buff) == -1)
@@ -260,7 +254,6 @@ void aflag(char *folder,bool flag)
 {
 	vector <string> temp;
 	DIR *dirp;
-//	cout << folder <<endl;
 	if(NULL==(dirp=opendir(folder)))
 	{
 		perror("opendir");
@@ -293,11 +286,6 @@ void aflag(char *folder,bool flag)
 		exit(1);
 	}
 	sort (temp.begin(),temp.end(),no_case_sensitivity);
-//	for (int i=0; i<temp.size();i++)
-//	{
-//		cout << temp[i] << "  ";
-//	}
-//	cout << endl;
 	string test3 = folder;
 	test3[test3.size()-1]=':';
 	if(flag_R)
@@ -307,7 +295,7 @@ void aflag(char *folder,bool flag)
 		cout << endl;
 	if(flag_R)
 	{
-	for(int i=0;i<temp.size();i++)
+	for(unsigned int i=0;i<temp.size();i++)
 	{
 		struct stat buff;
 
@@ -318,32 +306,14 @@ void aflag(char *folder,bool flag)
 		}
 		if(S_ISDIR(buff.st_mode))
 		{
-//			string test3=folder;
-//			test3[test3.size()-1]=':';
-	//		cout <<test3<< " " << folder <<endl;
-		//	printer(temp,folder);
-	//		cout << endl;
 			string test1=folder+temp[i]+"/";
 			strcpy(folder,test1.c_str());
 			aflag(folder,flag_a);
 		}
-//		else
-//		{
-//			string test3=folder;
-//			test3[test3.size()-1]=':';
-//			cout <<test3<< " " << folder <<endl;
-//			printer(temp,folder);
-//		}
-//	cout << temp[i]<< " this is the folder  " << folder << endl;
 }
-//	string test3 = folder;
-//	test3[test3.size()-1]=':';
-//	cout << test3 << endl;
-//	printer(temp,folder);
-//	cout << endl;
 	string test2= folder;
 	int string_index=0;
-	for (int j=0;j<test2.size();j++)
+	for (unsigned int j=0;j<test2.size();j++)
 	{	
 		if(test2[j]=='/'&& j!=test2.size()-1)
 			string_index = j;
@@ -361,7 +331,6 @@ void rflag(char *folder,bool flag)
 {
 	vector <string> temp;
 	DIR *dirp;
-	//	cout << folder <<endl;
 	string ch = folder;
 
 	if(NULL==(dirp=opendir(ch.c_str())))
@@ -395,11 +364,6 @@ void rflag(char *folder,bool flag)
 	}
 
 	sort (temp.begin(),temp.end(),no_case_sensitivity);
-	//	for (int i=0; i<temp.size();i++)
-	//	{
-	//		cout << temp[i] << "  ";
-	//	}
-	//	cout << endl;
 	string test3 = folder;
 	test3[test3.size()-1]=':';
 	if(flag_R)
@@ -413,10 +377,9 @@ void rflag(char *folder,bool flag)
 		cout << endl;
 	if(flag_R)
 	{
-		for(int i=0;i<temp.size();i++)
+		for(unsigned int i=0;i<temp.size();i++)
 		{
 			struct stat buff;
-			//		cout << folder << endl;
 
 			if(lstat((folder+temp[i]).c_str(), &buff) == -1)
 			{
@@ -425,35 +388,17 @@ void rflag(char *folder,bool flag)
 			}
 			if(S_ISDIR(buff.st_mode))
 			{
-				//			string test3=folder;
-				//			test3[test3.size()-1]=':';
-				//		cout <<test3<< " " << folder <<endl;
-				//	printer(temp,folder);
-				//		cout << endl;
 				if(temp[i]!="." && temp[i]!=".."){	
 					string test1=folder+temp[i]+"/";
 					strcpy(folder,test1.c_str());
 					rflag(folder,flag_a);
 				}
 			}
-			//		else
-			//		{
-			//			string test3=folder;
-			//			test3[test3.size()-1]=':';
-			//			cout <<test3<< " " << folder <<endl;
-			//			printer(temp,folder);
-			//		}
-			//	cout << temp[i]<< " this is the folder  " << folder << endl;
 		}
-		//	string test3 = folder;
-		//	test3[test3.size()-1]=':';
-		//	cout << test3 << endl;
-		//	printer(temp,folder);
-		//	cout << endl;
 		if(folder!=NULL){
 			string test2= folder;
 			int string_index=0;
-			for (int j=0;j<test2.size();j++)
+			for (unsigned int j=0;j<test2.size();j++)
 			{	
 				if(test2[j]=='/'&& j!=test2.size()-1)
 					string_index = j;
@@ -514,7 +459,7 @@ while (argv[i]!=NULL) //sets which flags to mark
 			{
 				test = test1 + "/";
 				int counter=0;
-				for (int i=0;i<test.size();i++)
+				for (unsigned int i=0;i<test.size();i++)
 				{
 					if(test.at(i)=='/')
 						counter++;
