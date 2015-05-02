@@ -24,44 +24,64 @@ char RESET[] = {"\033[0m"};
 void rflag(char *folder);
 void printer(vector<string> temp,char *folder)
 {
-	int check=0;
+	int width=0;
 	int max_size;
+	struct winsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	
 	for(int i=0;i<temp.size();i++)
 	{
 		if(max_size<temp[i].size())
 			max_size = temp[i].size();
 	}
+	
+	int term_width =  w.ws_col;
+	int less = (term_width/max_size) -1;
+	int check=0;
 //	cout << folder << "works" << endl;
 	for (int i=0;i<temp.size();i++)
 	{
-//		string fake = temp[i];
-//		fake = "./src/"+fake;
-//		temp[i] = fake;
-		struct stat buff;
-		if(lstat((folder+(temp[i])).c_str(),&buff) ==-1)
-		{
-			perror("lstat");
-			exit(1);
-		}
-		if(S_ISDIR(buff.st_mode))
-		{
-			if (temp[i][0]=='.')
-				cout << white << blue << setw(max_size) << left << temp[i] <<RESET << " ";
-			else
-				cout << blue << setw(max_size) << left << temp[i] << RESET << " ";
-		}
-		else if(buff.st_mode & S_IXUSR)
-			cout << green << setw(max_size) << left << temp[i] << RESET << " ";
-			
-		else 
-			cout << setw(max_size) << left << temp[i]<< " ";
-			
-			struct winsize w;
-			ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-		
-		
-		
-	
+
+	//		string fake = temp[i];
+	//		fake = "./src/"+fake;
+	//		temp[i] = fake;
+			struct stat buff;
+			string fake = folder;
+			int counter=0;
+			for (int m=0;m<fake.size();m++)
+			{
+				if(fake.at(m)=='/')
+					counter++;
+			}
+			if (counter<3)
+			{
+				fake = fake+temp[i];
+			}
+
+			if(lstat((fake).c_str(),&buff) ==-1)
+			{
+				perror("lstat");
+				exit(1);
+			}
+			if(S_ISDIR(buff.st_mode))
+			{
+				if (temp[i][0]=='.')
+					cout << left  <<white << blue << setw(max_size)<<  temp[i] <<RESET << " ";
+				else
+					cout <<  left <<blue << setw(max_size) << temp[i] << RESET << " ";
+			}
+			else if(buff.st_mode & S_IXUSR)
+				cout <<   left <<green  <<setw(max_size) << temp[i] << RESET << " ";
+				
+			else 
+				cout << left<< setw(max_size)  << temp[i]<< " ";
+				
+			check++;
+			if(check>less)
+			{
+				cout <<endl;
+				check=0;
+			}
 	}
 
 		cout << endl;
@@ -240,6 +260,7 @@ void aflag(char *folder,bool flag)
 {
 	vector <string> temp;
 	DIR *dirp;
+//	cout << folder <<endl;
 	if(NULL==(dirp=opendir(folder)))
 	{
 		perror("opendir");
@@ -247,15 +268,20 @@ void aflag(char *folder,bool flag)
 	}
 	struct dirent *filespecs;
 	errno =0;
+	
 	while(NULL!=(filespecs = readdir(dirp)))
 	{
 		if ((!flag) &&((filespecs->d_name)[0]!='.')&&((filespecs->d_name)[1]!='.'))
 		{
 			temp.push_back(filespecs->d_name);
 		}
-		else if (flag&&(filespecs->d_name)[1]!='.')
+		else if (flag&&flag_R&&(filespecs->d_name)[1]!='.')
 			temp.push_back(filespecs->d_name);
+		else if (flag)
+			temp.push_back(filespecs->d_name);
+		
 	}
+	
 	if (errno!=0)
 	{
 		perror("readdir");
@@ -266,18 +292,24 @@ void aflag(char *folder,bool flag)
 		perror("closedir");
 		exit(1);
 	}
-	
 	sort (temp.begin(),temp.end(),no_case_sensitivity);
 //	for (int i=0; i<temp.size();i++)
 //	{
 //		cout << temp[i] << "  ";
 //	}
 //	cout << endl;
-//	printer(temp,folder);
+	string test3 = folder;
+	test3[test3.size()-1]=':';
+	if(flag_R)
+		cout << test3 << endl;
+	printer(temp,folder);
+	if(flag_R)
+		cout << endl;
+	if(flag_R)
+	{
 	for(int i=0;i<temp.size();i++)
 	{
 		struct stat buff;
-//		cout << folder << endl;
 
 		if(lstat((folder+temp[i]).c_str(), &buff) == -1)
 		{
@@ -286,23 +318,24 @@ void aflag(char *folder,bool flag)
 		}
 		if(S_ISDIR(buff.st_mode))
 		{
-			string test3=folder;
-			test3[test3.size()-1]=':';
-			cout <<test3<< " " << folder <<endl;
+//			string test3=folder;
+//			test3[test3.size()-1]=':';
+	//		cout <<test3<< " " << folder <<endl;
 		//	printer(temp,folder);
-			cout << endl;
+	//		cout << endl;
 			string test1=folder+temp[i]+"/";
 			strcpy(folder,test1.c_str());
 			aflag(folder,flag_a);
 		}
-		else
-		{
-			string test3=folder;
-			test3[test3.size()-1]=':';
-			cout <<test3<< " " << folder <<endl;
+//		else
+//		{
+//			string test3=folder;
+//			test3[test3.size()-1]=':';
+//			cout <<test3<< " " << folder <<endl;
 //			printer(temp,folder);
-		}
-	}
+//		}
+//	cout << temp[i]<< " this is the folder  " << folder << endl;
+}
 //	string test3 = folder;
 //	test3[test3.size()-1]=':';
 //	cout << test3 << endl;
@@ -318,18 +351,20 @@ void aflag(char *folder,bool flag)
 	}
 	test2.resize(string_index+1);
 	strcpy(folder,test2.c_str());
-
+}
 
 
 }
 
 
-void rflag(char *folder)
+void rflag(char *folder,bool flag)
 {
-	vector <string> temp,temp1;
-
+	vector <string> temp;
 	DIR *dirp;
-	if(NULL==(dirp=opendir(folder)))
+	//	cout << folder <<endl;
+	string ch = folder;
+
+	if(NULL==(dirp=opendir(ch.c_str())))
 	{
 		perror("opendir");
 		exit(1);
@@ -338,7 +373,15 @@ void rflag(char *folder)
 	errno =0;
 	while(NULL!=(filespecs = readdir(dirp)))
 	{
-		temp.push_back(filespecs->d_name);
+		if ((!flag) &&((filespecs->d_name)[0]!='.')&&((filespecs->d_name)[1]!='.'))
+		{
+			temp.push_back(filespecs->d_name);
+		}
+		else if (flag&&flag_R&&(filespecs->d_name)[1]!='.')
+			temp.push_back(filespecs->d_name);
+		else if (flag)
+			temp.push_back(filespecs->d_name);
+
 	}
 	if (errno!=0)
 	{
@@ -352,56 +395,77 @@ void rflag(char *folder)
 	}
 
 	sort (temp.begin(),temp.end(),no_case_sensitivity);
+	//	for (int i=0; i<temp.size();i++)
+	//	{
+	//		cout << temp[i] << "  ";
+	//	}
+	//	cout << endl;
+	string test3 = folder;
+	test3[test3.size()-1]=':';
+	if(flag_R)
+		cout << test3 << endl;
+	if(flag_l)
+		lflag(folder,flag_a);
+	else
+	printer(temp,folder);
 
-	for(int i=0;i<temp.size();i++)
+	if(flag_R)
+		cout << endl;
+	if(flag_R)
 	{
-		struct stat buff;
-//		cout << temp[i] << endl;
-		if(lstat((temp[i]).c_str(), &buff) == -1)
+		for(int i=0;i<temp.size();i++)
 		{
-			perror("lstat");
-			exit(1);
-		}
-		if(S_ISDIR(buff.st_mode))
-		{
-			temp1.push_back("./"+temp[i]+"/");
-			string test;
-//			cout << "this is the other folder  " << folder <<endl;
-			if(temp[i] == ".")
-			{
-				test=temp[i]+":";
-			}
-			else if(flag_a)
-			{
-				
-				
-			}
-			else
-				test = "./" + temp[i] + ":";
-				strcpy(folder,test.c_str());
-			
-//			cout << folder << endl;
-			
-			test = "./" +temp[i]+"/";
-			strcpy(folder,test.c_str());
-//			cout << folder << endl;
+			struct stat buff;
+			//		cout << folder << endl;
 
-			aflag(folder,flag_a);
-//			cout << endl;
-		
+			if(lstat((folder+temp[i]).c_str(), &buff) == -1)
+			{
+				perror("lstat");
+				exit(1);
+			}
+			if(S_ISDIR(buff.st_mode))
+			{
+				//			string test3=folder;
+				//			test3[test3.size()-1]=':';
+				//		cout <<test3<< " " << folder <<endl;
+				//	printer(temp,folder);
+				//		cout << endl;
+				if(temp[i]!="." && temp[i]!=".."){	
+					string test1=folder+temp[i]+"/";
+					strcpy(folder,test1.c_str());
+					rflag(folder,flag_a);
+				}
+			}
+			//		else
+			//		{
+			//			string test3=folder;
+			//			test3[test3.size()-1]=':';
+			//			cout <<test3<< " " << folder <<endl;
+			//			printer(temp,folder);
+			//		}
+			//	cout << temp[i]<< " this is the folder  " << folder << endl;
 		}
-//			cout << "this is folder  " << folder << endl << endl;
-		
+		//	string test3 = folder;
+		//	test3[test3.size()-1]=':';
+		//	cout << test3 << endl;
+		//	printer(temp,folder);
+		//	cout << endl;
+		if(folder!=NULL){
+			string test2= folder;
+			int string_index=0;
+			for (int j=0;j<test2.size();j++)
+			{	
+				if(test2[j]=='/'&& j!=test2.size()-1)
+					string_index = j;
 
+			}
+			test2.resize(string_index);
+			test2=test2+"/";
+			strcpy(folder,test2.c_str());
+		}
 	}
 
-
-
-
-
 }
-
-
 
 int main(int argc, char *argv[])
 {
@@ -438,35 +502,61 @@ while (argv[i]!=NULL) //sets which flags to mark
 	else 
 	{
 		test1 = argv[i] ;
-		if(test1.at(test1.size()-1) != '/')
+		if (test1=="..")
 		{
-			test = test1 + "/";
-			strcpy(folder,test.c_str());
-		}
-		if(test1[0]!='.'  && test1[1]!='/')
-		{
-			
-			test = "./" + test1;
-			test1 = test;
-			if(test1.at(test1.size()-1)!='/')
-			{
-				test=test1 + "/";
-			}
-
-			strcpy(folder,test.c_str());
+			test1=argv[1];
+			test1="./"+test1+"/";
+			strcpy(folder,test1.c_str());
 		}
 		else
-			strcpy(folder,test1.c_str());
-		//cout << folder << " works" << endl;
+		{
+			if(test1.at(test1.size()-1) != '/')
+			{
+				test = test1 + "/";
+				int counter=0;
+				for (int i=0;i<test.size();i++)
+				{
+					if(test.at(i)=='/')
+						counter++;
+				}
+				if (counter>3)
+				{
+					test.resize(test.size()-1);
+				}
+
+				strcpy(folder,test.c_str());
+			}
+			else if(test1[0]!='.'  && test1[1]!='/')
+			{
+				
+				test = "./" + test1;
+				test1 = test;
+				if(test1.at(test1.size()-1)!='/')
+				{
+					test=test1 + "/";
+				}
+
+				strcpy(folder,test.c_str());
+			}
+			else
+			{
+				strcpy(folder,test1.c_str());
+				
+			}
 		}
+			
+			test = folder;
+	}
 	i++;
 }
 if (!(flag_a||flag_l||flag_R))
 {
 	aflag(folder,flag_a);
+	exit(0);
 }
 else if (flag_a && flag_l && flag_R)
 {
+	rflag(folder,flag_a);
 }
 else if(flag_a && flag_l)
 {
@@ -474,9 +564,12 @@ else if(flag_a && flag_l)
 }
 else if(flag_a && flag_R)
 {
+	rflag(folder,flag_a);
+	exit(0);
 }
 else if(flag_l && flag_R)
 {
+	rflag(folder,flag_a);
 }
 else if(flag_a)
 {
@@ -488,7 +581,7 @@ else if(flag_l)
 }
 else if(flag_R)
 {
-	rflag(folder);
+	aflag(folder,flag_a);
 }
 
 delete folder;
