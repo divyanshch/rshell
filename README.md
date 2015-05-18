@@ -17,8 +17,12 @@ $ bin/rshell
 ##Bugs/Limitations for io redirection and piping
 
 1. Cannot handle differnet input, output redirections in the same line.
+
   `cat < file1 > file2`
-  This results in a error message `Error: case not handled (cannot combine < and >)`
+
+  This results in a error message
+  
+  `Error: case not handled (cannot combine < and >)`
 
 2. Cannot handle piping at all
 
