@@ -1,0 +1,163 @@
+Script started on Sun 17 May 2015 09:33:50 PM PDT
+~
+dchou002@hammer $ cd[Ks100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * checksyscalls.sh      is your cpp file doing proper error checking?     |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd CS100/rshell/
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
+bin  LICENSE  Makefile	README.md  src	tests
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m make
+mkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/main.cpp -o bin/rshell
+g++  -ansi -pedantic -Wall -Werror src/ls.cpp   -o bin/ls
+g++  -ansi -pedantic -Wall -Werror src/cp.cpp   -o bin/cp
+g++  -ansi -pedantic -Wall -Werror src/rm.cpp   -o bin/rm
+g++  -ansi -pedantic -Wall -Werror src/mv.cpp   -o bin/mv
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
+bin  LICENSE  Makefile	README.md  src	tests
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
+dchou002@hammer $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+dchou002@hammer $ bin/    ls > this
+dchou002@hammer $ ls 0l  -l > that
+dchou002@hammer $ ls
+bin  LICENSE  Makefile	README.md  src	tests  that  this
+dchou002@hammer $ cat < this
+bin
+LICENSE
+Makefile
+README.md
+src
+tests
+this
+dchou002@hammer $ cat < that
+total 40
+drwx------ 2 dchou002 classes  4096 May 17 21:27 bin
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   639 May 17 20:32 Makefile
+-rw------- 1 dchou002 classes   669 May  1 23:57 README.md
+drwx------ 2 dchou002 classes  4096 May 17 21:05 src
+drwx------ 2 dchou002 classes  4096 May 17 21:27 tests
+-rw------- 1 dchou002 classes     0 May 17 21:27 that
+-rw------- 1 dchou002 classes    46 May 17 21:27 this
+dchou002@hammer $ cat < this < that
+total 40
+drwx------ 2 dchou002 classes  4096 May 17 21:27 bin
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   639 May 17 20:32 Makefile
+-rw------- 1 dchou002 classes   669 May  1 23:57 README.md
+drwx------ 2 dchou002 classes  4096 May 17 21:05 src
+drwx------ 2 dchou002 classes  4096 May 17 21:27 tests
+-rw------- 1 dchou002 classes     0 May 17 21:27 that
+-rw------- 1 dchou002 classes    46 May 17 21:27 this
+dchou002@hammer $ cat <     ls -a > those     this     > this >> that >> those
+dchou002@hammer $ cat < this < that < those
+.
+..
+bin
+.git
+LICENSE
+Makefile
+README.md
+src
+tests
+that
+this
+those
+dchou002@hammer $ cat < this 
+bin
+LICENSE
+Makefile
+README.md
+src
+tests
+this
+dchou002@hammer $ cat < thos  at
+total 40
+drwx------ 2 dchou002 classes  4096 May 17 21:27 bin
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   639 May 17 20:32 Makefile
+-rw------- 1 dchou002 classes   669 May  1 23:57 README.md
+drwx------ 2 dchou002 classes  4096 May 17 21:05 src
+drwx------ 2 dchou002 classes  4096 May 17 21:27 tests
+-rw------- 1 dchou002 classes     0 May 17 21:27 that
+-rw------- 1 dchou002 classes    46 May 17 21:27 this
+dchou002@hammer $ ls -l >> this > that >> those
+dchou002@hammer $ cat < this 
+dchou002@hammer $ cat < that
+dchou002@hammer $ cat < those
+.
+..
+bin
+.git
+LICENSE
+Makefile
+README.md
+src
+tests
+that
+this
+those
+total 44
+drwx------ 2 dchou002 classes  4096 May 17 21:27 bin
+-rw------- 1 dchou002 classes 18047 Apr  8 15:37 LICENSE
+-rw------- 1 dchou002 classes   639 May 17 20:32 Makefile
+-rw------- 1 dchou002 classes   669 May  1 23:57 README.md
+drwx------ 2 dchou002 classes  4096 May 17 21:05 src
+drwx------ 2 dchou002 classes  4096 May 17 21:27 tests
+-rw------- 1 dchou002 classes     0 May 17 21:28 that
+-rw------- 1 dchou002 classes     0 May 17 21:28 this
+-rw------- 1 dchou002 classes    67 May 17 21:28 those
+dchou002@hammer $ ls asdf 2> this 
+ca  dchou002@hammer $ cat < this 
+ls: cannot access asdf: No such file or directory
+dchou002@hammer $ ca  ls adsfadsf asdf        2                2>>              this
+dchou002@hammer $ cat < this 
+ls: cannot access asdf: No such file or directory
+ls: cannot access adsfadsf: No such file or directory
+dchou002@hammer $ cat asdfasdf 2  >> this 2 >>   > that
+dchou002@hammer $ cat M < this
+ls: cannot access asdf: No such file or directory
+ls: cannot access adsfadsf: No such file or directory
+dchou002@hammer $ cat < tho at
+cat: asdfasdf: No such file or directory
+dchou002@hammer $ cat <this> that
+Error: case not handled (cannot combine < and >)
+dchou002@hammer $ #this is to shou w it can      the eroor   ror messages    e 
+dchou002@hammer $ c ls
+bin  LICENSE  Makefile	README.md  src	tests  that  this  those
+dchou002@hammer $ bin/rm this that    
+dchou002@hammer $ bin  /rm that
+dchou002@hammer $ ls
+bin  LICENSE  Makefile	README.md  src	tests  those
+dchou002@hammer $ bin /  /  / n/rm those
+dchou002@hammer $ bin /  / l  ls
+[1;34mbin      [0m LICENSE   Makefile  README.md [1;34msrc      [0m [1;34mtests    [0m 
+dchou002@hammer $ ei xit
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m exit
+exit
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+~
+dchou002@hammer $ exit
+exit
+
+Script done on Sun 17 May 2015 09:37:51 PM PDT
