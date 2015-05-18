@@ -10,15 +10,17 @@ This project is built to act as a terminal. It has the same functionality as a r
 ```
 $ clone  https://github.com/divyanshch/rshell.git
 $ cd rshell
-$ git checkout hw1
+$ git checkout hw2
 $ make
-$ bin/ls
+$ bin/rshell
 ```
-##Bugs/Limitations for ls
+##Bugs/Limitations for io redirection and piping
 
-1. Can not handle any paramaters entered after the `~` is entered 
+1. Cannot handle differnet input, output redirections in the same line.
+  `cat < file1 > file2`
+  This results in a error message `Error: case not handled (cannot combine < and >)`
 
-2. When `~` is used as a argument the output is in blue regardless of whether it is a directory or not.
+2. Cannot handle piping at all
 
 
 
