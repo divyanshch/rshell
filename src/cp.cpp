@@ -36,7 +36,7 @@ void med_copy(char* in, char* out)
     int size = sizeof(char);
     int input_fd, output_fd;
     ssize_t ret_in, ret_out;
-    char buffer[size];
+    char buffer[8];
 
     input_fd = open(in, O_RDONLY);
     if(input_fd == -1) {
@@ -48,16 +48,21 @@ void med_copy(char* in, char* out)
         perror("open");
     }
 
-    while((ret_in = read(input_fd, &buffer, size)) > 0) {
+    while((ret_in = read(input_fd, &buffer, size)) > 0) 
+    {
+    	if(ret_in==-1)
+    		perror("read");
         ret_out = write(output_fd, &buffer, (ssize_t) ret_in);
         if(ret_out != ret_in) {
             perror("write");
         }
     }
 
-    close (input_fd);
-    close (output_fd);
+    if(-1==close (input_fd))
+    	perror("close");
 
+    if(-1==close (output_fd))
+    	perror("close");
 }
 
 void fast_copy(char* in, char* out)
@@ -76,15 +81,20 @@ void fast_copy(char* in, char* out)
         perror("open");
     }
 
-    while((ret_in = read(input_fd, &buffer, BUFSIZ)) > 0) {
+    while((ret_in = read(input_fd, &buffer, BUFSIZ)) > 0) 
+    {
+		if(ret_in==-1)
+			perror("read");
         ret_out = write(output_fd, &buffer, (ssize_t) ret_in);
         if(ret_out != ret_in) {
             perror("write");
         }
     }
 
-    close (input_fd);
-    close (output_fd);
+    if(-1==close (input_fd))
+    	perror("close");
+    if(-1==close (output_fd))
+    	perror("close");
 }
 
 bool file_exists(const char *fileName)

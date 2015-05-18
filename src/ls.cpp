@@ -26,7 +26,8 @@ void printer(vector<string> temp,char *folder)
 {
 	unsigned int max_size;
 	struct winsize w;
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	if(-1==ioctl(STDOUT_FILENO, TIOCGWINSZ, &w))
+		perror("ioctl");
 	
 	for(unsigned int i=0;i<temp.size();i++)
 	{
