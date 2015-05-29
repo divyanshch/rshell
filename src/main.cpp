@@ -23,10 +23,6 @@ void handler1(int signum)
 	{
 		cout << endl<<flush;
 	}
-	else if(signum==SIGTSTP)
-	{
-		cout << endl << flush;
-	}
 }
 
 
@@ -52,7 +48,6 @@ void executer(char **argv,int& status)
 	{
 		
 		sigignore(SIGINT);
-		sigignore(SIGTSTP);
 		if (-1 == wait(&status))// if the wait fails it displays error and exits
 		{
 			perror("wait");
@@ -64,8 +59,7 @@ void executer(char **argv,int& status)
 		sa1.sa_handler = handler1;
 		if(sigaction(SIGINT,&sa1,NULL)==-1)
 			perror("sigaction");
-		if(sigaction(SIGTSTP,&sa1,NULL)==-1)
-			perror("sigaction");
+
 
 	}
 }
@@ -467,6 +461,12 @@ void cd1(string input)
 			perror("setenv");
 			pPath = getenv("OLDPWD");
 
+		delete cd;
+		delete spa;
+		
+		delete inputchar;
+		delete[] argvIN;
+		delete[] argvSPACE;
 		return;
 
 	}
@@ -506,6 +506,15 @@ void cd1(string input)
 			perror("setenv");
 	}
 
+	delete cd;
+	delete spa;
+	
+	delete inputchar;
+	delete[] argvIN;
+	delete[] argvSPACE;
+
+
+
 }
 
 
@@ -519,9 +528,6 @@ int main()
 		
 		if(sigaction(SIGINT,&sa1,NULL)==-1)
 			perror("sigaction");
-		else if (sigaction(SIGTSTP,&sa1,NULL)==1)
-			perror("sigaction");
-
 
 		char* cwd;
 
