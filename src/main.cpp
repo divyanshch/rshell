@@ -9,11 +9,30 @@
 #include <sys/wait.h>
 #include <string>
 #include <fstream>
-
+#include <signal.h>
+#include <csignal>
+#include <limits.h>
 using namespace std;
 void io_pipe(string input);
+
+
+
+void handler1(int signum)
+{
+	if(signum==SIGINT)
+	{
+		cout << endl<<flush;
+	}
+	else if(signum==SIGTSTP)
+	{
+		cout << endl << flush;
+	}
+}
+
+
 void executer(char **argv,int& status)
 {
+	
 	int pid=fork();
 	if (pid == -1)//there was an error with the forking
 	{
@@ -22,7 +41,6 @@ void executer(char **argv,int& status)
 	}
 	else if (pid ==0)//if the child process is running
 	{
-		
 		if(-1==execvp(argv[0],argv))
 		{
 			status = -1;
@@ -32,12 +50,22 @@ void executer(char **argv,int& status)
 	}
 	else if (pid >0)//parent process is running
 	{
+		
+		sigignore(SIGINT);
+		sigignore(SIGTSTP);
 		if (-1 == wait(&status))// if the wait fails it displays error and exits
 		{
 			perror("wait");
 			exit(1);
 		}
+		struct sigaction sa1;
+		memset(&sa1, 0, sizeof(sa1));
 
+		sa1.sa_handler = handler1;
+		if(sigaction(SIGINT,&sa1,NULL)==-1)
+			perror("sigaction");
+		if(sigaction(SIGTSTP,&sa1,NULL)==-1)
+			perror("sigaction");
 
 	}
 }
@@ -394,55 +422,194 @@ while (first!=0)
 	delete spa;
 	delete open1;
 }
+string pwd,oldpwd;
+void cd1(string input)
+{
+	char *cd		= new char[3];
+	char *spa		= new char[3];
 
+	//just defining character pointers
+	strcpy(cd,"cd");
+	strcpy(spa," ");
+	char *inputchar = new char [input.length()+1];//makes a char* from string
+	strcpy(inputchar,input.c_str());
+	
+	char **argvIN     = new char*[strlen(inputchar)];
+	char **argvSPACE  = new char*[strlen(inputchar)];
+	int sz;
+	initial(inputchar,argvIN); 
+	checker(argvIN,argvSPACE,spa,sz);
+	string checker=argvSPACE[0];
+	if (checker!="cd" || sz>2)
+	{
+		cout << "Error: invalid call of the cd command" << endl;
+		return;
+	}
+
+	char* pPath;
+	char* cwd;
+	char buff[PATH_MAX + 1];
+	
+	if(argvSPACE[1]==NULL)//case where its just cd
+	{
+		cwd = getcwd( buff, PATH_MAX + 1 );
+		if( cwd == NULL )
+			perror("getcwd");
+		if(-1==setenv("OLDPWD",cwd,1))
+			perror("setenv");
+
+		pPath=getenv("HOME");
+		if(pPath==NULL)
+			perror("getenv");
+		if(-1==chdir(pPath))
+			perror("chdir");
+		if(-1==setenv("PWD",pPath,1))
+			perror("setenv");
+			pPath = getenv("OLDPWD");
+
+		return;
+
+	}
+
+	checker = argvSPACE[1];
+	if(checker=="-")//case where it is cd -
+	{
+		cwd=getcwd(buff,PATH_MAX+1);
+		if(cwd==NULL)
+			perror("getcwd");
+		pPath=getenv("OLDPWD");
+		if(pPath==NULL)
+			perror("getenv");
+
+		if(-1==chdir(pPath))
+			perror("chdir");
+		if(-1==setenv("PWD",pPath,1))
+			perror("setenv");
+		if(-1==setenv("OLDPWD",cwd,1))
+			perror("setenv");
+
+	}
+	else //case where it is cd <pathname>
+	{
+		cwd = getcwd( buff, PATH_MAX + 1 );
+		if( cwd == NULL )
+			perror("getcwd");
+		if(-1==setenv("OLDPWD",cwd,1))
+			perror("setenv");
+
+		if(-1==chdir(checker.c_str()))
+			perror("chdir");
+		cwd = getcwd(buff,PATH_MAX+1);
+		if(cwd==NULL)
+			perror("getcwd");
+		if(-1==setenv("PWD",cwd,1))
+			perror("setenv");
+	}
+
+}
 
 
 
 int main()
 {
-	string prompt; // make a string for the prompt
-	char host[333];
-	char *log = getlogin();	
-	prompt = log;
+		struct sigaction sa1;
+		memset(&sa1, 0, sizeof(sa1));
 
-	if (!log) // get login info 
-		perror("getlogin"); //if its not there error
+		sa1.sa_handler = handler1;
+		
+		if(sigaction(SIGINT,&sa1,NULL)==-1)
+			perror("sigaction");
+		else if (sigaction(SIGTSTP,&sa1,NULL)==1)
+			perror("sigaction");
 
-	if (gethostname(host,300) !=0) //get host info
-		perror("gethostname");  // error otherwise
 
-	if (log && host!=NULL)
-	{
-		for (int i=0;i<50;i++)
-		{
-			if (host[i]=='.')
-				host[i]='\0'; //this just makes it so the host ends at EX @hammer.cs.ucr.edu gets shortened to @hammer
-		}
-		prompt = prompt+"@"+host+" $ "; //puts dchou002@hammer $ together
-	}
-	else // if host or login failed 
-	{
-		prompt = "$ ";
-	}
-	string input;
+		char* cwd;
+
+		char buff[PATH_MAX + 1];
+
+		cwd = getcwd( buff, PATH_MAX + 1 );
+		if( cwd == NULL )
+			perror("getcwd");
+		
+		if(-1==setenv("OLDPWD",cwd,1))
+			perror("setenv");
+
 	while (1)//infinite loop
 	{
+		cin.clear();
+		string prompt; // make a string for the prompt
+		char host[333];
+		char *log = getlogin();	
+		prompt = log;
+
+		if (!log) // get login info 
+			perror("getlogin"); //if its not there error
+
+		if (gethostname(host,300) !=0) //get host info
+			perror("gethostname");  // error otherwise
+
+
+		////////////////////////////////////////////////////////////////	
+		char* pPath1;
+		pPath1 = getenv ("HOME");
+		if (pPath1==NULL)
+			perror("getenv");
+
+		char* cwd;
+
+		char buff[PATH_MAX + 1];
+
+		cwd = getcwd( buff, PATH_MAX + 1 );
+		if( cwd == NULL )
+			perror("getcwd");
+
+		string tpath = pPath1;
+		string tpath2 = cwd;
+		string prompt1;
+		if(tpath2.find(tpath)!=string::npos)
+		{
+			prompt1 = tpath2.substr(tpath.size(),tpath2.size());
+			prompt1 = "~" + prompt1;
+		}
+		else
+		{
+			prompt1 = tpath2;
+		}
+	///////////////////////////////////////////////////////////////
+
+		if (log && host!=NULL)
+		{
+			for (int i=0;i<50;i++)
+			{
+				if (host[i]=='.')
+					host[i]='\0'; //this just makes it so the host ends at EX @hammer.cs.ucr.edu gets shortened to @hammer
+			}
+
+			prompt = prompt+"@"+host+ prompt1 + " $ "; //puts dchou002@hammer $ together
+		}
+		else // if host or login failed 
+		{
+			prompt = prompt1 + "$ ";
+
+		}
+		string input;
 		number_of_io_redirections=0;
 		cout << prompt;
 		
 		getline(cin,input);//gets input
-		
+	
 		if (input.find("#") != string::npos)//resizes if the comment is found
 		{
 			input.resize(input.find("#"));
 		}
-		if(input.find(">")!=string::npos || input.find(">>")!=string::npos||input.find("<")!=string::npos)
+		if(input.find("cd")!=string::npos)
+			cd1(input);
+		else if(input.find(">")!=string::npos || input.find(">>")!=string::npos||input.find("<")!=string::npos)
 			io_pipe(input);
 		else
 			stringtoken(input);
 
 	}
-	
 
 
 	return 0;
