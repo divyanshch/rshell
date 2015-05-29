@@ -32,11 +32,11 @@ $ bin/rshell
 
 3. If there is a second paramater passed into `cd` there will be a error.
   
-``cd .. hello``
+  ``cd .. hello``
 
-  Output:
+    Output:
 
-  ``Error: invalid call of the cd command``
+    ``Error: invalid call of the cd command``
 
 
 
