@@ -10,19 +10,15 @@ This project is built to act as a terminal. It has the same functionality as a r
 ```
 $ clone  https://github.com/divyanshch/rshell.git
 $ cd rshell
-$ git checkout hw2
+$ git checkout hw3
 $ make
 $ bin/rshell
 ```
-##Bugs/Limitations for io redirection and piping
+##Bugs/Limitations for signaling
 
-1. Cannot handle differnet input, output redirections in the same line.
-
-  `cat < file1 > file2`
-
-  This results in a error message
-  
-  `Error: case not handled (cannot combine < and >)`
+1. Does not handle the combination of connectors and `cd`
+  ``echo hello && cd ..``
+This would result in the output of `hello` followed by an error.
 
 2. Cannot handle piping at all
 
