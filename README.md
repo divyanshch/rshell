@@ -20,9 +20,23 @@ $ bin/rshell
 
   ``echo hello && cd ..``
 
-This would result in the output of `hello` followed by an error.
+  This would result in the output of `hello` followed by an error.
 
-2. Cannot handle piping at all
+2. If the path when running `cd` does not exist, there is an error message.
+
+  ``cd non_existent_path``
+
+  Output:
+
+  ``chdir: No such file or directory``
+
+3. If there is a second paramater passed into `cd` there will be a error.
+  
+``cd .. hello``
+
+  Output:
+
+  ``Error: invalid call of the cd command``
 
 
 
