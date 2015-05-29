@@ -242,8 +242,8 @@ void io_pipe(string input)
 	char **argvSPACE	= new char*[strlen(inputchar)];
 	char **argvOPEN		= new char*[strlen(inputchar)];
 	
-	char *spa = new char[3];
-	char *open1 = new char[3];
+	char *spa = new char[5];
+	char *open1 = new char[5];
 	strcpy(spa," \n");
 	strcpy(open1,"<> ");
 	
@@ -259,96 +259,104 @@ void io_pipe(string input)
 	unsigned int first =1;
 	char *holder;
 	int x=0;
-while (first!=0)
-{
-	if(x==3)
-		sign = true;
-	first =0;
-	if(input.find(">")!=string::npos)
+	while (first!=0)
 	{
-		unsigned int temp = input.find(">");
-		first = temp;
-		if(temp-1>0)
+		if(x==3)
+			sign = true;
+		first =0;
+		if(input.find(">")!=string::npos)
 		{
-			if(input.at(temp-1)=='2')
-				cerrr=true;
-		}
-		temp = temp +1;
-		if(temp<input.size())
-		{
-			if(input.at(temp)!='>')
-				out=true;
-			else if(input.at(temp)=='>')
+			unsigned int temp = input.find(">");
+			first = temp;
+			if(temp-1>0)
 			{
-				out =false;
-				dout = true;
+				if(input.at(temp-1)=='2')
+					cerrr=true;
+			}
+			temp = temp +1;
+			if(temp<input.size())
+			{
+				if(input.at(temp)!='>')
+					out=true;
+				else if(input.at(temp)=='>')
+				{
+					out =false;
+					dout = true;
+				}
 			}
 		}
-	}
-	if(input.find("<")!=string::npos)
-	{
-		if(first>input.find("<")||first ==0)
+		if(input.find("<")!=string::npos)
 		{
-			first=input.find("<");
-			out = false;
-			cerrr=false;
-			dout = false;
-			in = true;
+			if(first>input.find("<")||first ==0)
+			{
+				first=input.find("<");
+				out = false;
+				cerrr=false;
+				dout = false;
+				in = true;
+			}
 		}
+		string fake = input;
+		if(cerrr)
+			fake.resize(first-1);
+
+		else
+			fake.resize(first);
+
+		if(first+1<input.size()&&!dout&&first!=0)
+			input =input.substr(first+1);
+
+		else if(first+2<input.size()&&dout&&first!=0)
+			input =input.substr(first+2);
+
+		if(number_of_io_redirections==0)
+		{
+			strcpy(inputchar,fake.c_str());
+
+			initial(inputchar,argvIN); //this puts the whole input into a char** for further breakdown
+
+			checker(argvIN,argvSPACE,spa,sz);
+		}
+
+		number_of_io_redirections++;
+		fake =input;
+		strcpy(fakechar,fake.c_str());
+		initial(fakechar,argvIN);
+		checker(argvIN,argvOPEN,open1,sz);
+		holder = argvOPEN[0]; // holds the file name to output or input
+		if(out)
+		{
+			if(-1==open(holder,O_WRONLY|O_CREAT|O_TRUNC,0644))
+				perror("open");
+				x=1;
+		}
+		else if(dout)
+		{
+			if(-1==open(holder,O_WRONLY|O_CREAT|O_APPEND,0644))
+				perror("open");
+				x=2;
+		}
+		else if(in)
+		{
+			if(-1==open(holder,O_RDONLY))
+				perror("open");
+				x=3;
+		}
+		if(sign && x!=3)
+		{
+			cout << "Error: case not handled (cannot combine < and >)" << endl;
+		
+	delete[] inputchar;
+	delete[] fakechar;
+	delete[] argvIN;
+	delete[] argvSPACE;
+	delete[] argvOPEN;	
+	delete[] spa;
+	delete[] open1;
+			return;
+		}
+		sign = false;
 	}
-	string fake = input;
-	if(cerrr)
-		fake.resize(first-1);
-
-	else
-		fake.resize(first);
-
-	if(first+1<input.size()&&!dout&&first!=0)
-		input =input.substr(first+1);
-
-	else if(first+2<input.size()&&dout&&first!=0)
-		input =input.substr(first+2);
-
-	if(number_of_io_redirections==0)
-	{
-		strcpy(inputchar,fake.c_str());
-
-		initial(inputchar,argvIN); //this puts the whole input into a char** for further breakdown
-
-		checker(argvIN,argvSPACE,spa,sz);
-	}
-
-	number_of_io_redirections++;
-	fake =input;
-	strcpy(fakechar,fake.c_str());
-	initial(fakechar,argvIN);
-	checker(argvIN,argvOPEN,open1,sz);
-	holder = argvOPEN[0]; // holds the file name to output or input
-	if(out)
-	{
-		if(-1==open(holder,O_WRONLY|O_CREAT|O_TRUNC,0644))
-			perror("open");
-			x=1;
-	}
-	else if(dout)
-	{
-		if(-1==open(holder,O_WRONLY|O_CREAT|O_APPEND,0644))
-			perror("open");
-			x=2;
-	}
-	else if(in)
-	{
-		if(-1==open(holder,O_RDONLY))
-			perror("open");
-			x=3;
-	}
-	if(sign && x!=3)
-	{
-		cout << "Error: case not handled (cannot combine < and >)" << endl;
-		return;
-	}
-	sign = false;
-}
 
 	int status =0;
 	int pid=fork();
@@ -405,18 +413,18 @@ while (first!=0)
 	out=false;
 	dout=false;
 	in=false;
-	
-	delete inputchar;
-	delete fakechar;
-	
+		
+	delete[] inputchar;
+	delete[] fakechar;
 	delete[] argvIN;
 	delete[] argvSPACE;
 	delete[] argvOPEN;
-
-	delete spa;
-	delete open1;
+	delete[] spa;
+	delete[] open1;
+	
 }
-string pwd,oldpwd;
+
+
 void cd1(string input)
 {
 	char *cd		= new char[3];
@@ -437,6 +445,12 @@ void cd1(string input)
 	if (checker!="cd" || sz>2)
 	{
 		cout << "Error: invalid call of the cd command" << endl;
+		delete[] cd;
+		delete[] spa;
+		
+		delete[] inputchar;
+		delete[] argvIN;
+		delete[] argvSPACE;
 		return;
 	}
 
@@ -464,7 +478,7 @@ void cd1(string input)
 		delete cd;
 		delete spa;
 		
-		delete inputchar;
+		delete[] inputchar;
 		delete[] argvIN;
 		delete[] argvSPACE;
 		return;
@@ -608,15 +622,40 @@ int main()
 		{
 			input.resize(input.find("#"));
 		}
+		
+		bool cd_check = false;
+			
 		if(input.find("cd")!=string::npos)
-			cd1(input);
-		else if(input.find(">")!=string::npos || input.find(">>")!=string::npos||input.find("<")!=string::npos)
-			io_pipe(input);
-		else
-			stringtoken(input);
+		{
+			char *spa		= new char[3];
+			strcpy(spa," ");
+			char *inputchar = new char [input.length()+1];//makes a char* from string
+			strcpy(inputchar,input.c_str());
+			
+			char **argvIN     = new char*[strlen(inputchar)];
+			char **argvSPACE  = new char*[strlen(inputchar)];
+			int sz;
+			initial(inputchar,argvIN); 
+			checker(argvIN,argvSPACE,spa,sz);
+			string checker=argvSPACE[0];
+			if(checker == "cd")
+			{
+				cd_check = true;
+				cd1(input);
+			}
 
+			delete[] spa;
+			delete[] inputchar;
+			delete[] argvIN;
+			delete[] argvSPACE;
+		}
+		if(!cd_check)
+		{
+			if(input.find(">")!=string::npos || input.find(">>")!=string::npos||input.find("<")!=string::npos)
+				io_pipe(input);
+			else
+				stringtoken(input);	
+		}
 	}
-
-
-	return 0;
+		return 0;
 }
