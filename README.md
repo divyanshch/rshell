@@ -17,7 +17,9 @@ $ bin/rshell
 ##Bugs/Limitations for signaling
 
 1. Does not handle the combination of connectors and `cd`
+
   ``echo hello && cd ..``
+
 This would result in the output of `hello` followed by an error.
 
 2. Cannot handle piping at all
