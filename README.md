@@ -38,7 +38,6 @@ $ bin/rshell
 
     ``Error: invalid call of the cd command``
 
-4. Running `cd ~` results in an error message 
 
 
 
