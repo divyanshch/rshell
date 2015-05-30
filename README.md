@@ -10,22 +10,35 @@ This project is built to act as a terminal. It has the same functionality as a r
 ```
 $ clone  https://github.com/divyanshch/rshell.git
 $ cd rshell
-$ git checkout hw2
+$ git checkout hw3
 $ make
 $ bin/rshell
 ```
-##Bugs/Limitations for io redirection and piping
+##Bugs/Limitations for signaling
 
-1. Cannot handle differnet input, output redirections in the same line.
+1. Does not handle the combination of connectors and `cd`
 
-  `cat < file1 > file2`
+  ``echo hello && cd ..``
 
-  This results in a error message
+  This would result in the output of `hello` followed by an error.
+
+2. If the path when running `cd` does not exist, there is an error message.
+
+  ``cd non_existent_path``
+
+  Output:
+
+  ``chdir: No such file or directory``
+
+3. If there is a second paramater passed into `cd` there will be a error.
   
-  `Error: case not handled (cannot combine < and >)`
+  ``cd .. hello``
 
-2. Cannot handle piping at all
+    Output:
 
+    ``Error: invalid call of the cd command``
+
+4. Running `cd ~` results in an error message 
 
 
 
