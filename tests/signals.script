@@ -1,4 +1,4 @@
-Script started on Fri 29 May 2015 01:13:50 AM PDT
+Script started on Fri 29 May 2015 08:21:34 PM PDT
 ~
 dchou002@hammer $ cs100
 [0;91m
@@ -23,7 +23,20 @@ dchou002@hammer $ cs100
 [0m
 [s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd CS100/rshell/
 [s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
-LICENSE  Makefile  README.md  src  tests
+bin  LICENSE  Makefile	README.md  src	tests
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m make
+mkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/main.cpp -o bin/rshell 
+mkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/ls.cpp   -o bin/ls 
+lsmkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/rm.cpp   -o bin/rm 
+mkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/mv.cpp   -o bin/mv 
+mkdir -p bin
+g++  -ansi -pedantic -Wall -Werror src/cp.cpp   -o bin/cp 
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m lsls[K[K
+bin  LICENSE  Makefile	README.md  src	tests
 [s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m make
 mkdir -p bin
 g++  -ansi -pedantic -Wall -Werror src/main.cpp -o bin/rshell 
@@ -37,47 +50,58 @@ mkdir -p bin
 g++  -ansi -pedantic -Wall -Werror src/cp.cpp   -o bin/cp 
 [s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m ls
 bin  LICENSE  Makefile	README.md  src	tests
-[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
-dchou002@hammer~/CS100/rshell $ cd src
-dchou002@hammer~/CS100/rshell/src $ cd ..
-dchou002@hammer~/CS100/rshell $ cd ..
-dchou002@hammer~/CS100 $ cd 
-dchou002@hammer~ $ c  d ..
-dchou002@hammer/class/classes $ c  d dchou002
-dchou002@hammer~ $ cd sr  CS100/sr  rshell
-dchou002@hammer~/CS100/rshell $ ls
-bin  LICENSE  Makefile	README.md  src	tests
-dchou002@hammer~/CS100/rshell $ c  d ..  
-dchou002@hammer~ $ ls
-assn2.tgz	  CS100  CS61spring  lab2part3.asm~  lab9ex2.asm  TEST
-checkbalance.cpp  CS61	 Desktop     lab9ex1.asm     lab9ex3.asm  testing
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin [K/rshell
+dchou002@hammer~/CS100/rshell $ c -  d -
+dchou002@hammer~/CS100/rshell $ cd -
+dchou002@hammer~/CS100/rshell $ cd home    
 dchou002@hammer~ $ cd -
+dchou002@hammer~/CS100/rshell $ cd -
+dchou002@hammer~ $ cd -
+dchou002@hammer~/CS100/rshell $ cd -
+dchou002@hammer~ $ cd ..
+dchou002@hammer/class/classes $ cd ..
+dchou002@hammer/class $ cd ..
+dchou002@hammer/ $ cd -
+dchou002@hammer/class $ cd -
+dchou002@hammer/ $ cd ~
+dchou002@hammer~ $ cd .
+dchou002@hammer~ $ cd ..
+dchou002@hammer/class/classes $ cd dchou        cd ~
+dchou002@hammer~ $ cd CS100/rshell
 dchou002@hammer~/CS100/rshell $ ls
 bin  LICENSE  Makefile	README.md  src	tests
-dchou002@hammer~/CS100/rshell $ ^C
-dchou002@hammer~/CS100/rshell $ #^C doesnt do anything base    if called in the shell 
-dchou002@hammer~/CS100/rshell $ at  cat
-
-
-
-
-^Cdchou002@hammer~/CS100/rshell $ cat
-^Cdchou002@hammer~/CS100/rshell $ ^C
+dchou002@hammer~/CS100/rshell $ cd ll  ..
+dchou002@hammer~/CS100 $ ls
+cheatsheetbash.txt  firstrepo  lab  main.cpp  rshell  vimcheatsheet.txt
+dchou002@hammer~/CS100 $ cs  cd  cat
+^Cdchou002@hammer~/CS100 $ l s  s & cat
+cheatsheetbash.txt  firstrepo  lab  main.cpp  rshell  vimcheatsheet.txt
+^Cdchou002@hammer~/CS100 $ ^C
+dchou002@hammer~/CS100 $ ^C
+dchou002@hammer~/CS100 $ ^C
+dchou002@hammer~/CS100 $ ^C
+dchou002@hammer~/CS100 $ echo hello  world && cat   ce               ello $$  %% #  @$%^&     && echo world; cat
+hello
+world
+^Cdchou002@hammer~/CS100 $ cd ! ~
+dchou002@hammer~ $ cd    pwd
+/class/classes/dchou002
+dchou002@hammer~ $ exit
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m export OLDPWD=""[K"
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m $old[K[K[KOLDPWD
+[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m BI[K[Kbin/rshell 
+dchou002@hammer~/CS100/rshell $ cd -
+dchou002@hammer~/CS100/rshell $ cd -
+dchou002@hammer~/CS100/rshell $ e cd ~
+dchou002@hammer~ $ cd CS100rs  /rshell
 dchou002@hammer~/CS100/rshell $ exit
-[s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m bin/rshell 
-dchou002@hammer~/CS100/rshell $ cd -
-dchou002@hammer~/CS100/rshell $ cd - #j if state     this t command if   s the first command then it redirects to the co urrent pwd
-dchou002@hammer~/CS100/rshell $ cd ..
-dchou002@hammer~/CS100 $ cd -
-dchou002@hammer~/CS100/rshell $ cd -
-dchou002@hammer~/CS100 $ cd -
-dchou002@hammer~/CS100/rshell $ cd    ls a -a ; cat
-.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
-^Cdchou002@hammer~/CS100/rshell $ exit    exit
 [s%%%%%%%%%%[u[0;32mdchou002[0;36m@[0;32mcs100[0;36m:[0;32m~/CS100/rshell[0;95m (master) [0;36m$[0m exit
 exit
 ~
-dchou002@hammer $ exit
+dchou002@hammer $ exi
+bash: exi: command not found
+~
+dchou002@hammer $ tex[K[K[Kexit
 exit
 
-Script done on Fri 29 May 2015 01:18:58 AM PDT
+Script done on Fri 29 May 2015 08:28:08 PM PDT
