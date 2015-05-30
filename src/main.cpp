@@ -510,7 +510,13 @@ void cd1(string input)
 			perror("getcwd");
 		if(-1==setenv("OLDPWD",cwd,1))
 			perror("setenv");
-
+		if(checker=="~")
+		{
+			pPath = getenv("HOME");
+			if(pPath==NULL)
+				perror("getenv");
+			checker=pPath;
+		}
 		if(-1==chdir(checker.c_str()))
 			perror("chdir");
 		cwd = getcwd(buff,PATH_MAX+1);
